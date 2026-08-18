@@ -18,9 +18,17 @@ obj/
 *.suo
 .vs/
 
+# ---------------- Database ----------------
+*.db
+*.db-shm
+*.db-wal
+
 # ---------------- OS / Editor ----------------
 .DS_Store
 Thumbs.db
 .vscode/*
 !.vscode/extensions.json
 .idea/
+
+# ---------------- Logs ----------------
+*.log
