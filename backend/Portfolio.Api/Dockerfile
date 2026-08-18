@@ -19,6 +19,15 @@ WORKDIR /app
 COPY --from=build /app/publish .
 
 ENV ASPNETCORE_ENVIRONMENT=Production
+# The default appsettings.json/appsettings.{env}.json config sources watch the
+# filesystem for hot-reload, each holding an inotify instance open. Render's
+# containers cap inotify instances at 128 per user, and that watch is what
+# exhausts it, crashing startup ("The configured user limit (128) on the
+# number of inotify instances has been reached"). This bootstrap setting is
+# read by the Generic Host before Program.cs runs, so the JSON sources are
+# built without a watcher in the first place — not needed outside dev, since
+# appsettings.json never changes after a container is deployed.
+ENV DOTNET_hostBuilder__reloadConfigOnChange=false
 # Documentation only — actual bind address/port is read from PORT at startup
 # (see Program.cs). Render injects PORT dynamically; 8080 is just the default
 # if it's ever missing.
