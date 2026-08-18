@@ -5,6 +5,15 @@ using Portfolio.Api.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Render (and most container hosts) assign a dynamic port via PORT and expect
+// the app to bind to it on all interfaces. Only applies when PORT is actually
+// set, so local `dotnet run` keeps using launchSettings.json unchanged.
+var port = Environment.GetEnvironmentVariable("PORT");
+if (!string.IsNullOrEmpty(port))
+{
+    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+}
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -40,9 +49,10 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    // Render (and most PaaS hosts) terminate TLS at the edge and forward plain
+    // HTTP internally, so redirecting to HTTPS inside the container would loop.
+    app.UseHttpsRedirection();
 }
-
-app.UseHttpsRedirection();
 
 app.UseCors("Frontend");
 
