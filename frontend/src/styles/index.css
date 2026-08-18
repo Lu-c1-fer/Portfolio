@@ -1,0 +1,290 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------- BASE ---------------- */
+html, body {
+  background: #5C94FC;
+  color: #0a0a0a;
+  font-family: 'VT323', ui-monospace, monospace;
+  image-rendering: pixelated;
+}
+body {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 8 8' shape-rendering='crispEdges'><rect x='0' y='0' width='1' height='1' fill='%23000'/><rect x='0' y='1' width='2' height='1' fill='%23000'/><rect x='1' y='1' width='1' height='1' fill='%23fff'/><rect x='0' y='2' width='3' height='1' fill='%23000'/><rect x='1' y='2' width='2' height='1' fill='%23fff'/><rect x='0' y='3' width='4' height='1' fill='%23000'/><rect x='1' y='3' width='3' height='1' fill='%23fff'/><rect x='0' y='4' width='5' height='1' fill='%23000'/><rect x='1' y='4' width='4' height='1' fill='%23fff'/><rect x='0' y='5' width='3' height='1' fill='%23000'/><rect x='3' y='5' width='1' height='1' fill='%23000'/><rect x='1' y='5' width='2' height='1' fill='%23fff'/><rect x='0' y='6' width='1' height='1' fill='%23000'/><rect x='2' y='6' width='2' height='1' fill='%23000'/></svg>") 0 0, auto;
+}
+button, a, input, textarea { cursor: inherit; }
+
+/* ---------------- PALETTE: UNDERGROUND ---------------- */
+html[data-palette="underground"] body { background: #0a0a0a; }
+html[data-palette="underground"] .bg-nesSky { background-color: #1a1020 !important; color: #fcfcfc; }
+html[data-palette="underground"] .nes-sky-band { background: linear-gradient(#1a1020, #0a0a0a) !important; }
+html[data-palette="underground"] .nes-bigtitle__main { color: #5C94FC !important; }
+html[data-palette="underground"] .text-nesBlack { color: #fcfcfc !important; }
+html[data-palette="underground"] .text-nesBlack\/90 { color: rgba(252,252,252,0.90) !important; }
+html[data-palette="underground"] .text-nesBlack\/85 { color: rgba(252,252,252,0.85) !important; }
+html[data-palette="underground"] .text-nesBlack\/80 { color: rgba(252,252,252,0.80) !important; }
+html[data-palette="underground"] .text-nesBlack\/75 { color: rgba(252,252,252,0.75) !important; }
+html[data-palette="underground"] .text-nesBlack\/70 { color: rgba(252,252,252,0.70) !important; }
+html[data-palette="underground"] .text-nesBlack\/60 { color: rgba(252,252,252,0.60) !important; }
+html[data-palette="underground"] .text-nesBlack\/40 { color: rgba(252,252,252,0.40) !important; }
+html[data-palette="underground"] .text-nesBlack\/30 { color: rgba(252,252,252,0.30) !important; }
+html[data-palette="underground"] .border-nesBlack { border-color: #fcfcfc !important; }
+html[data-palette="underground"] .border-nesBlack\/30,
+html[data-palette="underground"] .border-nesBlack\/15 { border-color: rgba(252,252,252,0.3) !important; }
+html[data-palette="underground"] .bg-nesWhite { background-color: #1a1020 !important; color: #fcfcfc; }
+html[data-palette="underground"] .pixel-panel { box-shadow: 4px 4px 0 0 #5C94FC; }
+
+/* ---------------- RAINBOW ---------------- */
+@keyframes rainbow-cycle {
+  0%   { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+html[data-rainbow="on"] body { animation: rainbow-cycle 3s linear infinite; }
+
+/* ---------------- SCANLINES ---------------- */
+html[data-scanlines="on"] body::before {
+  content: "";
+  position: fixed; inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0,0,0,0) 0px, rgba(0,0,0,0) 2px,
+    rgba(0,0,0,0.10) 2px, rgba(0,0,0,0.10) 3px
+  );
+  z-index: 9998;
+  mix-blend-mode: multiply;
+}
+/* CRT curve */
+html[data-crt="on"] body::after {
+  content: "";
+  position: fixed; inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.45) 100%);
+  z-index: 9997;
+}
+
+/* ---------------- LEVEL WIPE ---------------- */
+body.nes-wipe::before {
+  animation: none;
+}
+body.nes-wipe { position: relative; }
+body.nes-wipe > #root { animation: nes-wipe-out 220ms steps(6, end) forwards; }
+@keyframes nes-wipe-out {
+  0%   { clip-path: inset(0 0 0 0); }
+  100% { clip-path: inset(50% 0 50% 0); }
+}
+
+/* ---------------- PIXEL PANEL ---------------- */
+.pixel-panel {
+  border: 4px solid #0a0a0a;
+  box-shadow: 4px 4px 0 0 #0a0a0a;
+  border-radius: 0;
+  position: relative;
+}
+.pixel-panel--inner { box-shadow: none; }
+
+/* ---------------- PIXEL BUTTON ---------------- */
+.pixel-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  padding: 10px 14px;
+  border: 4px solid #0a0a0a;
+  box-shadow: 4px 4px 0 0 #0a0a0a;
+  transition: transform 80ms, box-shadow 80ms;
+  letter-spacing: 0.5px;
+}
+.pixel-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 0 #0a0a0a;
+}
+.pixel-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 0 #0a0a0a;
+}
+html[data-palette="underground"] .pixel-btn { box-shadow: 4px 4px 0 0 #fcfcfc; border-color: #fcfcfc; }
+html[data-palette="underground"] .pixel-btn:hover { box-shadow: 5px 5px 0 0 #fcfcfc; }
+
+/* ---------------- HEADER ---------------- */
+.nes-header {
+  background: #0a0a0a;
+  color: #fcfcfc;
+  border-bottom: 4px solid #0a0a0a;
+  box-shadow: 0 4px 0 0 #fcfcfc, 0 8px 0 0 #0a0a0a;
+  position: sticky; top: 0; z-index: 50;
+}
+.nes-navlink {
+  padding: 8px 10px;
+  color: rgba(252,252,252,0.7);
+  letter-spacing: 0.5px;
+  transition: color 100ms;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.nes-navlink:hover { color: #fcfcfc; }
+.nes-navlink--active { color: #FFD700; }
+.nes-navlink--mobile { padding: 10px 8px; flex: 1; text-align: center; }
+.nes-pointer { color: #E52521; }
+.nes-pointer-spacer { width: 8px; display: inline-block; }
+.nes-iconbtn {
+  padding: 6px 8px;
+  background: #1a1a1a;
+  border: 2px solid #fcfcfc;
+  color: #fcfcfc;
+  letter-spacing: 0.5px;
+}
+.nes-iconbtn:hover { background: #FFD700; color: #0a0a0a; border-color: #0a0a0a; }
+
+/* ---------------- HERO ---------------- */
+.nes-sky-band {
+  background: linear-gradient(#5C94FC, #6EA8FF);
+  position: relative;
+  overflow: hidden;
+}
+.nes-bigtitle {
+  position: relative;
+  font-size: clamp(48px, 12vw, 110px);
+  line-height: 1;
+  letter-spacing: 4px;
+  display: inline-block;
+  margin-top: 20px;
+}
+.nes-bigtitle__main { color: #E52521; position: relative; }
+.nes-bigtitle__shadow {
+  position: absolute; left: 6px; top: 6px; color: #0a0a0a;
+  z-index: 0;
+}
+.nes-bigtitle__main { z-index: 1; }
+/* HERO ROOM */
+.nes-room-band {
+  background: #0f0a18;
+  position: relative;
+  overflow: hidden;
+}
+.nes-scene-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  border: 4px solid #0a0a0a;
+  box-shadow: 6px 6px 0 0 #000;
+  background: #1a1428;
+}
+.nes-monitor {
+  filter: drop-shadow(6px 6px 0 #000);
+}
+/* scrolling game inside monitor */
+@keyframes nes-scroll-game {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-100px); }
+}
+.nes-monitor-scroll {
+  animation: nes-scroll-game 6s linear infinite;
+}
+/* keep title legible against dark room */
+.nes-room-band .nes-bigtitle__shadow { color: #0a0a0a; }
+.nes-room-band .nes-bigtitle__main   { color: #FFD700; }
+/* clouds css no longer needed */
+.nes-clouds, .nes-cloud { display: none; }
+
+/* ---------------- WORLD CARD ---------------- */
+.nes-worldcard { display: block; }
+
+/* ---------------- ITEM TAG ---------------- */
+.pixel-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 8px 3px 3px;
+  background: #fcfcfc;
+  border: 2px solid #0a0a0a;
+  box-shadow: 2px 2px 0 0 #0a0a0a;
+}
+.pixel-pill__icon {
+  width: 16px; height: 16px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  border: 2px solid #0a0a0a;
+}
+html[data-palette="underground"] .pixel-pill { background: #2a1a30; color: #fcfcfc; border-color: #fcfcfc; box-shadow: 2px 2px 0 0 #fcfcfc; }
+
+/* ---------------- INPUTS ---------------- */
+.nes-input {
+  width: 100%;
+  padding: 8px 10px;
+  background: #fcfcfc;
+  border: 4px solid #0a0a0a;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  color: #0a0a0a;
+  outline: none;
+}
+.nes-input:focus { border-color: #E52521; box-shadow: 0 0 0 2px #FFD700; }
+.nes-input--ta { resize: vertical; min-height: 96px; line-height: 1.4; }
+
+/* ---------------- CODE BLOCK ---------------- */
+.pixel-codeblock {
+  border: 4px solid #fcfcfc;
+  background: #0a0a0a;
+  box-shadow: 4px 4px 0 0 #0a0a0a;
+}
+.pixel-codeblock__bar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 12px;
+  background: #1a1a1a;
+  color: #FFD700;
+  border-bottom: 4px solid #fcfcfc;
+}
+.pixel-codeblock__body {
+  padding: 14px 14px;
+  font-family: ui-monospace, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #fcfcfc;
+  overflow-x: auto;
+}
+.tok-k { color: #E52521; }
+.tok-s { color: #FFD700; }
+.tok-c { color: #43B047; font-style: normal; }
+
+/* ---------------- CALLOUTS ---------------- */
+.pixel-callout {
+  display: flex; align-items: stretch;
+  margin: 18px 0;
+  border: 4px solid #0a0a0a;
+  box-shadow: 4px 4px 0 0 #0a0a0a;
+  background: #fcfcfc;
+}
+.pixel-callout__glyph {
+  flex-shrink: 0;
+  min-width: 48px;
+  padding: 0 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  border-right: 4px solid #0a0a0a;
+  letter-spacing: 1px;
+}
+.pixel-callout__body {
+  padding: 12px 14px;
+  font-family: 'VT323', monospace;
+  font-size: 17px;
+  line-height: 1.5;
+  color: #0a0a0a;
+}
+html[data-palette="underground"] .pixel-callout { background: #1a1020; color: #fcfcfc; border-color: #fcfcfc; box-shadow: 4px 4px 0 0 #fcfcfc; }
+html[data-palette="underground"] .pixel-callout__body { color: #fcfcfc; }
+html[data-palette="underground"] .pixel-callout__glyph { border-right-color: #fcfcfc; }
+
+/* ---------------- FOCUS ---------------- */
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline: 4px solid #FFD700;
+  outline-offset: 2px;
+}
+
+/* selection */
+::selection { background: #FFD700; color: #0a0a0a; }
+
+/* mobile tweaks */
+@media (max-width: 640px) {
+  .nes-bigtitle__shadow { left: 4px; top: 4px; }
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
