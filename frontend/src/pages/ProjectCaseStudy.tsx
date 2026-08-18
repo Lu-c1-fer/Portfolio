@@ -191,7 +191,7 @@ function FullCaseStudy({ world, caseStudy, navigate }: { world: WorldSummary; ca
             </div>
 
             <div className="mt-12 pt-6 border-t-4 border-dashed border-nesBlack/30 flex items-center justify-between">
-              <PixelButton color="black" onClick={() => navigate("/")}>◀ BACK</PixelButton>
+              <PixelButton color="black" onClick={() => navigate("/worlds")}>◀ BACK</PixelButton>
               <span className="font-pixel text-[9px] text-nesBlack/60">END OF PROJECT</span>
             </div>
           </article>
@@ -231,6 +231,6 @@ function NesBlock({ block }: { block: CaseStudyBlock }) {
 
 function BackTo({ navigate }: { navigate: Navigate }) {
   return (
-    <PixelButton color="black" onClick={() => navigate("/")}>◀ MAP</PixelButton>
+    <PixelButton color="black" onClick={() => navigate("/worlds")}>◀ MAP</PixelButton>
   );
 }
