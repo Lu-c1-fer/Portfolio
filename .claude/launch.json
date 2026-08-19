@@ -12,6 +12,12 @@
       "runtimeExecutable": "dotnet",
       "runtimeArgs": ["run", "--project", "backend/Portfolio.Api", "--launch-profile", "http"],
       "port": 5255
+    },
+    {
+      "name": "admin-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "admin-app", "run", "dev", "--", "--host"],
+      "port": 5174
     }
   ]
 }
