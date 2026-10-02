@@ -3,6 +3,7 @@ import { useHashRoute } from "./hooks/useHashRoute";
 import { useKonami } from "./hooks/useKonami";
 import { useTweaks } from "./hooks/useTweaks";
 import { sfx } from "./lib/sfx";
+import { getProfile } from "./lib/api";
 import { NesHeader } from "./components/NesHeader";
 import { NesFooter } from "./components/NesFooter";
 import { TweaksPanel, TweakSection, TweakToggle, TweakRadio } from "./components/tweaks/TweaksPanel";
@@ -44,9 +45,20 @@ function App() {
   const [route, navigate] = useHashRoute();
   const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const [sound, setSoundState] = useState(() => sfx.isEnabled());
+  const [fullName, setFullName] = useState<string | undefined>(undefined);
 
   useEffect(() => applyPalette(tweaks.palette), [tweaks.palette]);
   useEffect(() => applyFx(tweaks), [tweaks]);
+
+  // Footer renders on every route (not just Home, which already fetches its
+  // own copy of the profile for the hero section), so it needs its own fetch.
+  useEffect(() => {
+    getProfile()
+      .then((p) => setFullName(p.fullName))
+      .catch(() => {
+        /* footer falls back to its default name */
+      });
+  }, []);
 
   const setSound = (v: boolean) => {
     sfx.setEnabled(v);
@@ -100,7 +112,7 @@ function App() {
         onTweaksToggle={openTweaks}
       />
       <main className="flex-1">{page}</main>
-      <NesFooter />
+      <NesFooter fullName={fullName} />
       <TweaksPanel title="Tweaks">
         <TweakSection label="Palette">
           <TweakRadio
